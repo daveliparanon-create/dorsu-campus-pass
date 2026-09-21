@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
 import type { StudentProfile } from '../types/student';
 
 interface StudentCardProps {
@@ -13,13 +20,13 @@ export default function StudentCard({
   return (
     <View style={styles.card}>
 
-      <View style={styles.photoContainer}>
-        <Image
-          source={{ uri: student.avatarUrl }}
-          style={styles.avatar}
-        />
-      </View>
+      {/* PROFILE PHOTO */}
+      <Image
+        source={require('../../assets/dave-profile.jpg')}
+        style={styles.avatar}
+      />
 
+      {/* STUDENT INFORMATION */}
       <View style={styles.info}>
 
         <Text style={styles.name}>
@@ -27,7 +34,7 @@ export default function StudentCard({
         </Text>
 
         <Text style={styles.details}>
-          ID: {student.idNumber}
+          Student ID: {student.idNumber}
         </Text>
 
         <Text style={styles.details}>
@@ -38,23 +45,22 @@ export default function StudentCard({
           {student.yearLevel}
         </Text>
 
-        <Text style={styles.campus}>
-          📍 {student.campus}
-        </Text>
-
+        {/* ACTIVE / SUSPENDED */}
         <View
-          style={
+          style={[
+            styles.statusBadge,
             isActive
               ? styles.activeBadge
-              : styles.inactiveBadge
-          }
+              : styles.inactiveBadge,
+          ]}
         >
           <View
-            style={
+            style={[
+              styles.statusDot,
               isActive
                 ? styles.activeDot
-                : styles.inactiveDot
-            }
+                : styles.inactiveDot,
+            ]}
           />
 
           <Text style={styles.badgeText}>
@@ -70,104 +76,83 @@ export default function StudentCard({
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
-    padding: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 18,
     marginBottom: 18,
 
-    elevation: 5,
-
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 4,
     },
-    shadowOpacity: 0.12,
+    shadowOpacity: 0.10,
     shadowRadius: 8,
 
-    borderWidth: 1,
-    borderColor: '#DCEEFF',
-  },
-
-  photoContainer: {
-    marginRight: 16,
-    justifyContent: 'flex-start',
+    elevation: 5,
   },
 
   avatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    borderWidth: 4,
-    borderColor: '#B8DCFF',
+    width: 92,
+    height: 92,
+    borderRadius: 46,
+    marginRight: 16,
   },
 
   info: {
     flex: 1,
+    justifyContent: 'center',
   },
 
   name: {
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: 'bold',
-    color: '#123B70',
-    marginBottom: 7,
+    color: '#12344d',
+    marginBottom: 5,
   },
 
   details: {
-    fontSize: 14,
-    color: '#374957',
-    marginBottom: 4,
+    fontSize: 13,
+    color: '#455a64',
+    marginBottom: 3,
   },
 
-  campus: {
-    fontSize: 13,
-    color: '#607D8B',
-    marginTop: 2,
-    lineHeight: 19,
+  statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 11,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginTop: 7,
   },
 
   activeBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    backgroundColor: '#D8F8E3',
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    borderRadius: 20,
-    marginTop: 10,
+    backgroundColor: '#dff5e8',
   },
 
   inactiveBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    backgroundColor: '#FFE0E0',
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    borderRadius: 20,
-    marginTop: 10,
+    backgroundColor: '#fde4e4',
+  },
+
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
   },
 
   activeDot: {
-    width: 9,
-    height: 9,
-    borderRadius: 5,
-    backgroundColor: '#18A957',
-    marginRight: 7,
+    backgroundColor: '#20a05a',
   },
 
   inactiveDot: {
-    width: 9,
-    height: 9,
-    borderRadius: 5,
-    backgroundColor: '#E53935',
-    marginRight: 7,
+    backgroundColor: '#d64545',
   },
 
   badgeText: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: 'bold',
-    color: '#16833F',
+    color: '#198754',
   },
 });

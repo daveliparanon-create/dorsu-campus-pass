@@ -19,145 +19,174 @@ export default function ScanCounter({
   return (
     <View style={styles.card}>
 
-      <Text style={styles.icon}>▣</Text>
+      {/* CARD HEADER */}
+      <View style={styles.headerRow}>
+        <View>
+          <Text style={styles.title}>Gate Scans</Text>
+          <Text style={styles.subtitle}>
+            Total campus entry scans
+          </Text>
+        </View>
 
-      <Text style={styles.title}>
-        Gate Scans
-      </Text>
+        <View style={styles.iconCircle}>
+          <Text style={styles.icon}>▣</Text>
+        </View>
+      </View>
 
-      <Text style={styles.label}>
-        Total Scans
-      </Text>
+      {/* SCAN COUNT */}
+      <View style={styles.countContainer}>
+        <Text style={styles.countLabel}>Total Scans</Text>
 
-      <Text style={styles.count}>
-        {count}
-      </Text>
-
-      <Pressable
-        style={({ pressed }) => [
-          styles.scanButton,
-          pressed && styles.pressed,
-        ]}
-        onPress={onScan}
-      >
-        <Text style={styles.scanIcon}>＋</Text>
-        <Text style={styles.buttonText}>
-          Scan +1
+        <Text style={styles.count}>
+          {count}
         </Text>
-      </Pressable>
+      </View>
 
-      <Pressable
-        style={({ pressed }) => [
-          styles.resetButton,
-          pressed && styles.pressed,
-        ]}
-        onPress={onReset}
-      >
-        <Text style={styles.resetIcon}>↻</Text>
-        <Text style={styles.buttonText}>
-          Reset
-        </Text>
-      </Pressable>
+      {/* BUTTONS */}
+      <View style={styles.buttonRow}>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.scanButton,
+            pressed && styles.pressed,
+          ]}
+          onPress={onScan}
+        >
+          <Text style={styles.scanButtonText}>
+            ＋ Scan
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.resetButton,
+            pressed && styles.pressed,
+          ]}
+          onPress={onReset}
+        >
+          <Text style={styles.resetButtonText}>
+            Reset
+          </Text>
+        </Pressable>
+
+      </View>
 
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
+  /* MAIN CARD */
   card: {
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
-    padding: 24,
-    marginTop: 18,
-    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 18,
 
-    borderWidth: 1,
-    borderColor: '#DCEEFF',
-
-    elevation: 5,
-
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 4,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.10,
     shadowRadius: 8,
+
+    elevation: 5,
   },
 
-  icon: {
-    fontSize: 28,
-    color: '#1262B0',
-    marginBottom: 3,
+  /* HEADER */
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 18,
   },
 
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#123B70',
+    color: '#12344d',
   },
 
-  label: {
-    fontSize: 14,
-    color: '#70859A',
-    marginTop: 5,
+  subtitle: {
+    fontSize: 12,
+    color: '#78909c',
+    marginTop: 3,
+  },
+
+  /* ICON */
+  iconCircle: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#e8f4fb',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  icon: {
+    fontSize: 20,
+    color: '#1976a3',
+  },
+
+  /* COUNT */
+  countContainer: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+
+  countLabel: {
+    fontSize: 12,
+    color: '#78909c',
+    marginBottom: 4,
   },
 
   count: {
-    fontSize: 58,
+    fontSize: 42,
     fontWeight: 'bold',
-    color: '#0B4F96',
-    marginVertical: 8,
+    color: '#12344d',
+  },
+
+  /* BUTTONS */
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 18,
   },
 
   scanButton: {
-    width: '80%',
-    backgroundColor: '#168BEA',
-    borderRadius: 14,
-    paddingVertical: 15,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#1976a3',
+    borderRadius: 12,
+    paddingVertical: 13,
     alignItems: 'center',
-    marginTop: 8,
+    justifyContent: 'center',
+  },
 
-    elevation: 3,
+  scanButtonText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 
   resetButton: {
-    width: '80%',
-    backgroundColor: '#6C7886',
-    borderRadius: 14,
-    paddingVertical: 15,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#eef2f4',
+    borderRadius: 12,
+    paddingVertical: 13,
     alignItems: 'center',
-    marginTop: 12,
-
-    elevation: 2,
+    justifyContent: 'center',
   },
 
-  scanIcon: {
-    color: '#FFFFFF',
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginRight: 7,
-  },
-
-  resetIcon: {
-    color: '#FFFFFF',
-    fontSize: 23,
-    marginRight: 7,
-  },
-
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+  resetButtonText: {
+    color: '#455a64',
+    fontSize: 14,
     fontWeight: 'bold',
   },
 
+  /* PRESS EFFECT */
   pressed: {
     opacity: 0.7,
-    transform: [{ scale: 0.98 }],
   },
 });

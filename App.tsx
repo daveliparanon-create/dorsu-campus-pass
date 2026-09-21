@@ -4,11 +4,14 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   Pressable,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
+
+import Header from './src/components/Header';
+import StudentCard from './src/components/StudentCard';
+import ScanCounter from './src/components/ScanCounter';
 
 export default function App() {
   const [isActive, setIsActive] = useState(true);
@@ -34,101 +37,28 @@ export default function App() {
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
-
         {/* ================= HEADER ================= */}
 
-        <View style={styles.header}>
-
-          <View style={styles.logo}>
-            <Text style={styles.logoText}>D</Text>
-          </View>
-
-          <View style={styles.headerText}>
-            <Text style={styles.title}>
-              DOrSU Digital Campus Pass
-            </Text>
-
-            <Text style={styles.subtitle}>
-              Student Identification & Campus Access
-            </Text>
-          </View>
-
-          <View style={styles.settingsButton}>
-            <Text style={styles.settingsIcon}>⚙</Text>
-          </View>
-
-        </View>
+        <Header />
 
         {/* ================= STUDENT CARD ================= */}
 
-        <View style={styles.studentCard}>
-
-          <Image
-            source={require('./assets/dave-profile.jpg')}
-            style={styles.profileImage}
-          />
-
-          <View style={styles.studentInfo}>
-
-            <Text style={styles.studentName}>
-              Dave Harry L. Liparanon
-            </Text>
-
-            <Text style={styles.studentID}>
-              Student ID: 2024-2278-MT
-            </Text>
-
-            <Text style={styles.infoText}>
-              BS in Information Technology (BSIT)
-            </Text>
-
-            <Text style={styles.infoText}>
-              3rd Year — Section F
-            </Text>
-
-            {/* ACTIVE / SUSPENDED */}
-
-            <View
-              style={[
-                styles.statusBadge,
-                isActive
-                  ? styles.activeBadge
-                  : styles.suspendedBadge,
-              ]}
-            >
-
-              <View
-                style={[
-                  styles.statusDot,
-                  isActive
-                    ? styles.activeDot
-                    : styles.suspendedDot,
-                ]}
-              />
-
-              <Text
-                style={[
-                  styles.statusText,
-                  isActive
-                    ? styles.activeText
-                    : styles.suspendedText,
-                ]}
-              >
-                {isActive ? 'ACTIVE' : 'SUSPENDED'}
-              </Text>
-
-            </View>
-
-          </View>
-
-        </View>
+        <StudentCard
+          student={{
+            name: 'Dave Harry L. Liparanon',
+            idNumber: '2024-2278-MT',
+            program: 'BS in Information Technology (BSIT)',
+            yearLevel: '3rd Year — Section F',
+            avatarUrl: '',
+            campus: 'Main Campus (Guang-guang, Mati City)',
+          }}
+          isActive={isActive}
+        />
 
         {/* ================= CAMPUS ACCESS ================= */}
 
         <View style={styles.card}>
-
           <View style={styles.sectionHeader}>
-
             <View style={styles.accessText}>
               <Text style={styles.cardTitle}>
                 Campus Access
@@ -150,7 +80,6 @@ export default function App() {
                   : styles.switchInactive,
               ]}
             >
-
               <View
                 style={[
                   styles.switchCircle,
@@ -159,15 +88,12 @@ export default function App() {
                     : styles.circleInactive,
                 ]}
               />
-
             </Pressable>
-
           </View>
 
           {/* CURRENT STATUS */}
 
           <View style={styles.accessStatus}>
-
             <Text style={styles.accessLabel}>
               Current Status
             </Text>
@@ -184,7 +110,6 @@ export default function App() {
                 ? 'Access Granted'
                 : 'Access Suspended'}
             </Text>
-
           </View>
 
           {/* SUSPEND / REACTIVATE */}
@@ -198,69 +123,27 @@ export default function App() {
                 : styles.activateButton,
             ]}
           >
-
             <Text style={styles.actionButtonText}>
               {isActive
                 ? 'Suspend Pass'
                 : 'Reactivate Pass'}
             </Text>
-
           </Pressable>
-
         </View>
 
         {/* ================= GATE SCANS ================= */}
 
-        <View style={styles.card}>
-
-          <Text style={styles.cardTitle}>
-            Gate Scans
-          </Text>
-
-          <Text style={styles.cardSubtitle}>
-            Total campus entry scans
-          </Text>
-
-          <Text style={styles.scanNumber}>
-            {gateScans}
-          </Text>
-
-          {/* BUTTONS */}
-
-          <View style={styles.scanButtons}>
-
-            <Pressable
-              onPress={handleScan}
-              style={styles.scanButton}
-            >
-
-              <Text style={styles.scanButtonText}>
-                + Scan
-              </Text>
-
-            </Pressable>
-
-            <Pressable
-              onPress={handleReset}
-              style={styles.resetButton}
-            >
-
-              <Text style={styles.resetButtonText}>
-                Reset
-              </Text>
-
-            </Pressable>
-
-          </View>
-
-        </View>
+        <ScanCounter
+          count={gateScans}
+          onScan={handleScan}
+          onReset={handleReset}
+        />
 
         {/* ================= FOOTER ================= */}
 
         <Text style={styles.footer}>
           DOrSU • Digital Campus Pass
         </Text>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -271,7 +154,6 @@ export default function App() {
 ===================================================== */
 
 const styles = StyleSheet.create({
-
   /* ---------- MAIN SCREEN ---------- */
 
   safeArea: {
@@ -283,159 +165,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 40,
-  },
-
-  /* ---------- HEADER ---------- */
-
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-
-  logo: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#1769aa',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  logoText: {
-    color: '#ffffff',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-
-  headerText: {
-    flex: 1,
-    marginLeft: 12,
-  },
-
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#12344d',
-  },
-
-  subtitle: {
-    fontSize: 13,
-    color: '#6b7c8f',
-    marginTop: 3,
-  },
-
-  settingsButton: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    backgroundColor: '#d9e1e8',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  settingsIcon: {
-    fontSize: 25,
-    color: '#ffffff',
-  },
-
-  /* ---------- STUDENT CARD ---------- */
-
-  studentCard: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 18,
-    marginBottom: 18,
-
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.10,
-    shadowRadius: 8,
-
-    elevation: 5,
-  },
-
-  profileImage: {
-    width: 92,
-    height: 92,
-    borderRadius: 46,
-    marginRight: 16,
-  },
-
-  studentInfo: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-
-  studentName: {
-    fontSize: 19,
-    fontWeight: 'bold',
-    color: '#12344d',
-    marginBottom: 5,
-  },
-
-  studentID: {
-    fontSize: 13,
-    color: '#607d8b',
-    marginBottom: 5,
-  },
-
-  infoText: {
-    fontSize: 13,
-    color: '#455a64',
-    marginBottom: 3,
-  },
-
-  /* ---------- STATUS BADGE ---------- */
-
-  statusBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 11,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginTop: 7,
-  },
-
-  activeBadge: {
-    backgroundColor: '#dff5e8',
-  },
-
-  suspendedBadge: {
-    backgroundColor: '#fde4e4',
-  },
-
-  statusDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 6,
-  },
-
-  activeDot: {
-    backgroundColor: '#20a05a',
-  },
-
-  suspendedDot: {
-    backgroundColor: '#d64545',
-  },
-
-  statusText: {
-    fontSize: 11,
-    fontWeight: 'bold',
-  },
-
-  activeText: {
-    color: '#198754',
-  },
-
-  suspendedText: {
-    color: '#d63333',
   },
 
   /* ---------- GENERAL CARD ---------- */
@@ -535,6 +264,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
+  activeText: {
+    color: '#198754',
+  },
+
+  suspendedText: {
+    color: '#d63333',
+  },
+
   /* ---------- ACTION BUTTON ---------- */
 
   actionButton: {
@@ -558,49 +295,6 @@ const styles = StyleSheet.create({
     color: '#34495e',
   },
 
-  /* ---------- GATE SCANS ---------- */
-
-  scanNumber: {
-    fontSize: 52,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#1769aa',
-    marginVertical: 18,
-  },
-
-  scanButtons: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-
-  scanButton: {
-    flex: 1,
-    backgroundColor: '#1769aa',
-    paddingVertical: 14,
-    borderRadius: 11,
-    alignItems: 'center',
-  },
-
-  scanButtonText: {
-    color: '#ffffff',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-
-  resetButton: {
-    flex: 1,
-    backgroundColor: '#eceff1',
-    paddingVertical: 14,
-    borderRadius: 11,
-    alignItems: 'center',
-  },
-
-  resetButtonText: {
-    color: '#455a64',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-
   /* ---------- FOOTER ---------- */
 
   footer: {
@@ -609,5 +303,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
   },
-
 });
